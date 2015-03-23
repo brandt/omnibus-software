@@ -28,7 +28,7 @@ dependency "perl"
 relative_path "git-#{version}"
 
 version "1.9.5" do
-  source md5: "a50979e98068f7dae8ad34492d0ef5a8"
+  source md5: "e9c82e71bec550e856cccd9548902885"
 end
 
 version "2.2.1" do
