@@ -25,11 +25,13 @@ relative_path "perl-#{version}"
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
-  solaris_mapfile_path = File.expand_path(Omnibus::Config.solaris_linker_mapfile, Omnibus::Config.project_root)
-  if solaris2? && File.exist?(solaris_mapfile_path)
-    cc_command = "-Dcc='gcc -static-libgcc -Wl,-M #{solaris_mapfile_path}"
-  else
-    cc_command = "-Dcc='gcc -static-libgcc'"
+  cc_command = "-Dcc='gcc -static-libgcc'"
+
+  if solaris2? && Omnibus::Config.method_defined?(:solaris_linker_mapfile)
+    solaris_mapfile_path = File.expand_path(Omnibus::Config.solaris_linker_mapfile, Omnibus::Config.project_root)
+    if File.exist?(solaris_mapfile_path)
+      cc_command << " -Wl,-M #{solaris_mapfile_path}"
+    end
   end
 
   configure_command = ["sh Configure",
